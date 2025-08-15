@@ -2,30 +2,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-/**
- * The main class for the "CodeLock Quest" game.
- * It manages the game flow, questions, and player interaction.
- */
+
 public class Game {
 
     private static List<Question> questions = new ArrayList<>();
     private static int score = 0;
     private static int currentQuestionIndex = 0;
 
-    /**
-     * The main entry point of the game.
-     * @param args Command line arguments (not used).
-     */
+   /
     public static void main(String[] args) {
         initializeQuestions();
         startGame();
     }
 
-    /**
-     * Populates the list of questions for the game.
-     */
     private static void initializeQuestions() {
-        // Level 1: Basic Output
+        // Basic Output
         questions.add(new Question(
             "Complete the code to print 'Hello, Java!' to the console.",
             "public class Main {\n" +
@@ -36,7 +27,7 @@ public class Game {
             "println"
         ));
 
-        // Level 2: Variable Declaration
+        // Variable Declaration
         questions.add(new Question(
             "Declare an integer variable named 'playerScore' and assign it the value 100.",
             "public class Main {\n" +
@@ -48,7 +39,7 @@ public class Game {
             "int"
         ));
 
-        // Level 3: Simple For Loop
+        // Simple For Loop
         questions.add(new Question(
             "Complete the for loop to print numbers from 0 to 4.",
             "public class Main {\n" +
@@ -61,7 +52,7 @@ public class Game {
             "i < 5"
         ));
         
-        // Level 4: String Concatenation
+        // String Concatenation
         questions.add(new Question(
             "What keyword is used to join two strings together?",
             "public class Main {\n" +
@@ -76,9 +67,7 @@ public class Game {
         ));
     }
 
-    /**
-     * Starts and manages the main game loop.
-     */
+    
     private static void startGame() {
         Scanner scanner = new Scanner(System.in);
 
@@ -110,9 +99,7 @@ public class Game {
         scanner.close();
     }
 
-    /**
-     * Displays the current question and code snippet.
-     */
+    
     private static void displayQuestion() {
         Question currentQuestion = questions.get(currentQuestionIndex);
         System.out.println("Level " + (currentQuestionIndex + 1) + ": " + currentQuestion.getQuestionText());
@@ -122,23 +109,17 @@ public class Game {
         System.out.println("Fill in the blank (____):");
     }
 
-    /**
-     * Checks if the user's answer is correct.
-     * @param userAnswer The answer provided by the player.
-     * @return true if the answer is correct, false otherwise.
-     */
+    
     private static boolean checkAnswer(String userAnswer) {
-        // .trim() removes any accidental whitespace from user input
-        // .equalsIgnoreCase() makes the check case-insensitive
+        
         return userAnswer.trim().equalsIgnoreCase(questions.get(currentQuestionIndex).getAnswer());
     }
 
-    /**
-     * Displays the final score at the end of the game.
-     */
+    
     private static void displayFinalScore() {
         System.out.println("Quest Complete!");
         System.out.println("Your final score is: " + score + " out of " + questions.size());
         System.out.println("Thanks for playing CodeLock Quest!");
     }
+
 }
