@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+        
+        .orb-font {
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .neon-text {
+            text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #0073e6, 0 0 20px #0073e6;
+        }
+        
+        .neon-btn {
+            box-shadow: 0 0 5px #0073e6, 0 0 10px rgba(0, 115, 230, 0.5);
+            transition: all 0.3s ease;
+        }
+        
+        .neon-btn:hover {
+            box-shadow: 0 0 10px #0073e6, 0 0 20px rgba(0, 115, 230, 0.8);
+            transform: translateY(-2px);
+        }
+        
+        .neon-btn:active {
+            transform: translateY(0);
+        }
+        
+        .calculator-bg {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 115, 230, 0.5);
+        }
+        
+        .display-bg {
+            background: rgba(10, 15, 30, 0.8);
+            border-radius: 10px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .btn-operator {
+            background: linear-gradient(135deg, #0073e6 0%, #005bb5 100%);
+        }
+        
+        .btn-number {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        }
+        
+        .btn-equals {
+            background: linear-gradient(135deg, #00b894 0%, #00997b 100%);
+        }
+        
+        .btn-clear {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        }
+        
+        .btn-other {
+            background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+        }
+        
+        .history-item {
+            transition: all 0.3s ease;
+        }
+        
+        .history-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-900 min-h-screen flex items-center justify-center p-4">
+    <div class="calculator-bg p-6 w-full max-w-md">
+        <!-- Display -->
+        <div class="display-bg p-4 mb-6">
+            <div class="text-right">
+                <div id="history" class="text-gray-400 text-sm h-5 orb-font overflow-hidden whitespace-nowrap"></div>
+                <div id="display" class="text-white text-4xl orb-font neon-text overflow-hidden whitespace-nowrap">0</div>
+            </div>
+        </div>
+        
+        <!-- Buttons -->
+        <div class="grid grid-cols-4 gap-3">
+            <!-- Row 1 -->
+            <button onclick="clearAll()" class="btn-clear text-white p-4 rounded-lg font-bold text-xl neon-btn">AC</button>
+            <button onclick="backspace()" class="btn-other text-white p-4 rounded-lg font-bold text-xl neon-btn"><i class="fas fa-backspace"></i></button>
+            <button onclick="toggleSign()" class="btn-other text-white p-4 rounded-lg font-bold text-xl neon-btn">+/-</button>
+            <button onclick="appendOperator('/')" class="btn-operator text-white p-4 rounded-lg font-bold text-xl neon-btn">÷</button>
+            
+            <!-- Row 2 -->
+            <button onclick="appendNumber('7')" class="btn-number text-white p-4 rounded-lg font-bold text-xl neon-btn">7</button>
+            <button onclick="appendNumber('8')" class="btn-number text-white p-4 rounded-lg font-bold text-xl neon-btn">8</button>
+            <button onclick="appendNumber('9')" class="btn-number text-white p-4 rounded-lg font-bold text-xl neon-btn">9</button>
+            <button onclick="appendOperator('*')" class="btn-operator text-white p-4 rounded-lg font-bold text-xl neon-btn">×</button>
+            
+            <!-- Row 3 -->
+            <button onclick="appendNumber('4')" class="btn-number text-white p-4 rounded-lg font-bold text-xl neon-btn">4</button>
+            <button onclick="appendNumber('5')" class="btn-number text-white p-4 rounded-lg font-bold text-xl neon-btn">5</button>
+            <button onclick="appendNumber('6')" class="btn-number text-white p-4 rounded-lg font-bold text-xl neon-btn">6</button>
+            <button onclick="appendOperator('-')" class="btn-operator text-white p-4 rounded-lg font-bold text-xl neon-btn">-</button>
+            
+            <!-- Row 4 -->
+            <button onclick="appendNumber('1')" class="btn-number text-white p-4 rounded-lg font-bold text-xl neon-btn">1</button>
+            <button onclick="appendNumber('2')" class="btn-number text-white p-4 rounded-lg font-bold text-xl neon-btn">2</button>
+            <button onclick="appendNumber('3')" class="btn-number text-white p-4 rounded-lg font-bold text-xl neon-btn">3</button>
+            <button onclick="appendOperator('+')" class="btn-operator text-white p-4 rounded-lg font-bold text-xl neon-btn">+</button>
+            
+            <!-- Row 5 -->
+            <button onclick="appendNumber('0')" class="btn-number text-white p-4 rounded-lg font-bold text-xl neon-btn col-span-2">0</button>
+            <button onclick="appendDecimal()" class="btn-number text-white p-4 rounded-lg font-bold text-xl neon-btn">.</button>
+            <button onclick="calculate()" class="btn-equals text-white p-4 rounded-lg font-bold text-xl neon-btn">=</button>
+        </div>
+        
+        <!-- History Section -->
+        <div class="mt-6">
+            <div class="flex justify-between items-center mb-2">
+                <h3 class="text-white font-bold text-lg">History</h3>
+                <button onclick="clearHistory()" class="text-gray-400 hover:text-white text-sm">
+                    <i class="fas fa-trash-alt"></i> Clear
+                </button>
+            </div>
+            <div id="history-list" class="max-h-40 overflow-y-auto text-gray-300 text-sm orb-font">
+                <!-- History items will be added here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentInput = '0';
+        let previousInput = '';
+        let operation = null;
+        let resetInput = false;
+        let calculationHistory = [];
+        
+        const display = document.getElementById('display');
+        const historyDisplay = document.getElementById('history');
+        const historyList = document.getElementById('history-list');
+        
+        function updateDisplay() {
+            display.textContent = currentInput;
+            historyDisplay.textContent = previousInput + (operation ? ' ' + getOperationSymbol(operation) : '');
+        }
+        
+        function getOperationSymbol(op) {
+            switch(op) {
+                case '+': return '+';
+                case '-': return '-';
+                case '*': return '×';
+                case '/': return '÷';
+                default: return op;
+            }
+        }
+        
+        function appendNumber(number) {
+            if (currentInput === '0' || resetInput) {
+                currentInput = number;
+                resetInput = false;
+            } else {
+                currentInput += number;
+            }
+            updateDisplay();
+        }
+        
+        function appendDecimal() {
+            if (resetInput) {
+                currentInput = '0.';
+                resetInput = false;
+            } else if (!currentInput.includes('.')) {
+                currentInput += '.';
+            }
+            updateDisplay();
+        }
+        
+        function toggleSign() {
+            currentInput = (parseFloat(currentInput) * -1).toString();
+            updateDisplay();
+        }
+        
+        function appendOperator(op) {
+            if (operation !== null) calculate();
+            previousInput = currentInput;
+            operation = op;
+            resetInput = true;
+            updateDisplay();
+        }
+        
+        function calculate() {
+            if (operation === null || resetInput) return;
+            
+            let result;
+            const prev = parseFloat(previousInput);
+            const current = parseFloat(currentInput);
+            
+            switch(operation) {
+                case '+':
+                    result = prev + current;
+                    break;
+                case '-':
+                    result = prev - current;
+                    break;
+                case '*':
+                    result = prev * current;
+                    break;
+                case '/':
+                    result = prev / current;
+                    break;
+                default:
+                    return;
+            }
+            
+            // Add to history
+            const historyItem = `${previousInput} ${getOperationSymbol(operation)} ${currentInput} = ${result}`;
+            calculationHistory.unshift(historyItem);
+            updateHistory();
+            
+            currentInput = result.toString();
+            operation = null;
+            resetInput = true;
+            updateDisplay();
+        }
+        
+        function clearAll() {
+            currentInput = '0';
+            previousInput = '';
+            operation = null;
+            updateDisplay();
+        }
+        
+        function backspace() {
+            if (currentInput.length === 1 || (currentInput.length === 2 && currentInput.startsWith('-'))) {
+                currentInput = '0';
+            } else {
+                currentInput = currentInput.slice(0, -1);
+            }
+            updateDisplay();
+        }
+        
+        function updateHistory() {
+            historyList.innerHTML = '';
+            calculationHistory.slice(0, 10).forEach(item => {
+                const historyElement = document.createElement('div');
+                historyElement.textContent = item;
+                historyElement.classList.add('history-item', 'p-2', 'rounded', 'mb-1', 'cursor-pointer');
+                historyElement.addEventListener('click', () => {
+                    // When a history item is clicked, use that result as current input
+                    const parts = item.split(' = ');
+                    if (parts.length === 2) {
+                        currentInput = parts[1];
+                        operation = null;
+                        resetInput = true;
+                        updateDisplay();
+                    }
+                });
+                historyList.appendChild(historyElement);
+            });
+        }
+        
+        function clearHistory() {
+            calculationHistory = [];
+            updateHistory();
+        }
+        
+        // Keyboard support
+        document.addEventListener('keydown', (e) => {
+            if (e.key >= '0' && e.key <= '9') {
+                appendNumber(e.key);
+            } else if (e.key === '.') {
+                appendDecimal();
+            } else if (e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/') {
+                appendOperator(e.key);
+            } else if (e.key === 'Enter' || e.key === '=') {
+                calculate();
+            } else if (e.key === 'Escape') {
+                clearAll();
+            } else if (e.key === 'Backspace') {
+                backspace();
+            }
+        });
+        
+        // Initialize display
+        updateDisplay();
+    </script>
+</body>
+</html>
