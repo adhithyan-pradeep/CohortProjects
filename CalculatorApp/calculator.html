@@ -84,37 +84,37 @@
         
         <!-- Buttons -->
         <div class="grid grid-cols-4 gap-3">
-            <!-- Row 1 -->
+            
             <button onclick="clearAll()" class="btn-clear text-white p-4 rounded-lg font-bold text-xl neon-btn">AC</button>
             <button onclick="backspace()" class="btn-other text-white p-4 rounded-lg font-bold text-xl neon-btn"><i class="fas fa-backspace"></i></button>
             <button onclick="toggleSign()" class="btn-other text-white p-4 rounded-lg font-bold text-xl neon-btn">+/-</button>
             <button onclick="appendOperator('/')" class="btn-operator text-white p-4 rounded-lg font-bold text-xl neon-btn">÷</button>
             
-            <!-- Row 2 -->
+            
             <button onclick="appendNumber('7')" class="btn-number text-white p-4 rounded-lg font-bold text-xl neon-btn">7</button>
             <button onclick="appendNumber('8')" class="btn-number text-white p-4 rounded-lg font-bold text-xl neon-btn">8</button>
             <button onclick="appendNumber('9')" class="btn-number text-white p-4 rounded-lg font-bold text-xl neon-btn">9</button>
             <button onclick="appendOperator('*')" class="btn-operator text-white p-4 rounded-lg font-bold text-xl neon-btn">×</button>
             
-            <!-- Row 3 -->
+            
             <button onclick="appendNumber('4')" class="btn-number text-white p-4 rounded-lg font-bold text-xl neon-btn">4</button>
             <button onclick="appendNumber('5')" class="btn-number text-white p-4 rounded-lg font-bold text-xl neon-btn">5</button>
             <button onclick="appendNumber('6')" class="btn-number text-white p-4 rounded-lg font-bold text-xl neon-btn">6</button>
             <button onclick="appendOperator('-')" class="btn-operator text-white p-4 rounded-lg font-bold text-xl neon-btn">-</button>
             
-            <!-- Row 4 -->
+           
             <button onclick="appendNumber('1')" class="btn-number text-white p-4 rounded-lg font-bold text-xl neon-btn">1</button>
             <button onclick="appendNumber('2')" class="btn-number text-white p-4 rounded-lg font-bold text-xl neon-btn">2</button>
             <button onclick="appendNumber('3')" class="btn-number text-white p-4 rounded-lg font-bold text-xl neon-btn">3</button>
             <button onclick="appendOperator('+')" class="btn-operator text-white p-4 rounded-lg font-bold text-xl neon-btn">+</button>
             
-            <!-- Row 5 -->
+            
             <button onclick="appendNumber('0')" class="btn-number text-white p-4 rounded-lg font-bold text-xl neon-btn col-span-2">0</button>
             <button onclick="appendDecimal()" class="btn-number text-white p-4 rounded-lg font-bold text-xl neon-btn">.</button>
             <button onclick="calculate()" class="btn-equals text-white p-4 rounded-lg font-bold text-xl neon-btn">=</button>
         </div>
         
-        <!-- History Section -->
+        
         <div class="mt-6">
             <div class="flex justify-between items-center mb-2">
                 <h3 class="text-white font-bold text-lg">History</h3>
@@ -284,4 +284,5 @@
         updateDisplay();
     </script>
 </body>
+
 </html>
